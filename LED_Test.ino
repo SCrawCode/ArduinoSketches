@@ -13,6 +13,6 @@ void loop() {
  digitalWrite(Red, LOW);
  digitalWrite(Green, HIGH);
  delay(500);
- digitalWrite(Green, LOW); 
+ digitalWrite(Green, HIGH); 
   
 }
