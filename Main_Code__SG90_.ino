@@ -30,13 +30,7 @@ void setup() {
  servo1.attach(11); // Attaches servo 1 to pin 5
  servo2.attach(12); // Attaches servo 2 to pin 6
  
- //Shift Regiter (LED Array) Setup
- //pinMode(data_pin1, OUTPUT);
- //pinMode(clock_pin1, OUTPUT);
- //pinMode(latch_pin1, OUTPUT);
- //pinMode(data_pin2, OUTPUT);
- //pinMode(clock_pin2, OUTPUT);
- //pinMode(latch_pin2, OUTPUT);
+
  pinMode(LEDRedR, OUTPUT);
  pinMode(LEDRedL, OUTPUT);
  pinMode(LEDYellowR, OUTPUT);
@@ -83,16 +77,7 @@ void SG90DN(int down) {
  servo2.write(down); 
 }
 
-//void ledArray1(byte Data) {
-  //digitalWrite(latch_pin1, LOW);
-  //shiftOut(data_pin1, clock_pin1, LSBFIRST, Data);
-  //digitalWrite(latch_pin1, HIGH);
-//}
-//void ledArray2(byte Data) {
-  //digitalWrite(latch_pin2, LOW);
-  //shiftOut(data_pin2, clock_pin2, LSBFIRST, Data);
-  //digitalWrite(latch_pin2, HIGH);
-//}
+
 
 void eLEDY() {
   digitalWrite(LEDYellowR, HIGH);
@@ -120,7 +105,6 @@ void WaterSensor() {
 
 void loop() {
  
- //ledArray1(B11111111); 
  SR04();
  
    WaterSensor();
