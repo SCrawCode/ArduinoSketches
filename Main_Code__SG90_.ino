@@ -8,38 +8,39 @@ Servo servo2;
 int posUp = 0;
 int posDown = 90;
 
-
 // Initializes Ultrasonic Sensors
-const int trigPinR = 10; // Right Sensor
-const int echoPinR = 12; 
+const int trigPinR = 2; // Right Sensor
+const int echoPinR = 3; 
 
-const int trigPinL = 11; // Left Sensor
-const int echoPinL = 13;
+const int trigPinL = 4; // Left Sensor
+const int echoPinL = 5;
 
 long timeR, distR, timeL, distL;
 
-// Initializes LED Array
-int data_pin1 = 8;
-int clock_pin1 = 9;
-int latch_pin1 = 10;
-int data_pin2 = 
-int clock_pin2 = 
-int latch_pin2 =
+// Emergency LEDS
+int LEDRedR = 7;
+int LEDRedL = 9;
+int LEDYellowR = 6;
+int LEDYellowL = 8;
 
 // Initializes Water Level Sensors
 int sensor;
 
 void setup() {
- servo1.attach(5); // Attaches servo 1 to pin 5
- servo2.attach(6); // Attaches servo 2 to pin 6
+ servo1.attach(11); // Attaches servo 1 to pin 5
+ servo2.attach(12); // Attaches servo 2 to pin 6
  
  //Shift Regiter (LED Array) Setup
- pinMode(data_pin1, OUTPUT);
- pinMode(clock_pin1, OUTPUT);
- pinMode(latch_pin1, OUTPUT);
- pinMode(data_pin2, OUTPUT);
- pinMode(clock_pin2, OUTPUT);
- pinMode(latch_pin2, OUTPUT);
+ //pinMode(data_pin1, OUTPUT);
+ //pinMode(clock_pin1, OUTPUT);
+ //pinMode(latch_pin1, OUTPUT);
+ //pinMode(data_pin2, OUTPUT);
+ //pinMode(clock_pin2, OUTPUT);
+ //pinMode(latch_pin2, OUTPUT);
+ pinMode(LEDRedR, OUTPUT);
+ pinMode(LEDRedL, OUTPUT);
+ pinMode(LEDYellowR, OUTPUT);
+ pinMode(LEDYellowL, OUTPUT);
  
  // Ultrasonic Sensor GPIO Init
  pinMode(trigPinR, OUTPUT);
@@ -82,15 +83,32 @@ void SG90DN(int down) {
  servo2.write(down); 
 }
 
-void ledArray1(byte Data) {
-  digitalWrite(latch_pin1, LOW);
-  shiftOut(data_pin1, clock_pin1, LSBFIRST, Data);
-  digitalWrite(latch_pin1, HIGH);
+//void ledArray1(byte Data) {
+  //digitalWrite(latch_pin1, LOW);
+  //shiftOut(data_pin1, clock_pin1, LSBFIRST, Data);
+  //digitalWrite(latch_pin1, HIGH);
+//}
+//void ledArray2(byte Data) {
+  //digitalWrite(latch_pin2, LOW);
+  //shiftOut(data_pin2, clock_pin2, LSBFIRST, Data);
+  //digitalWrite(latch_pin2, HIGH);
+//}
+
+void eLEDY() {
+  digitalWrite(LEDYellowR, HIGH);
+  digitalWrite(LEDYellowL, HIGH);
+  delay(500);
+  digitalWrite(LEDYellowR, LOW);
+  digitalWrite(LEDYellowL, LOW);
+  delay(500);
 }
-void ledArray2(byte Data) {
-  digitalWrite(latch_pin2, LOW);
-  shiftOut(data_pin2, clock_pin2, LSBFIRST, Data);
-  digitalWrite(latch_pin2, HIGH);
+void eLEDROn() {
+  digitalWrite(LEDRedR, HIGH);
+  digitalWrite(LEDRedL, HIGH);
+}
+void eLEDROff() {
+  digitalWrite(LEDRedR, LOW);
+  digitalWrite(LEDRedL, LOW);
 }
 
 void WaterSensor() {
@@ -102,13 +120,14 @@ void WaterSensor() {
 
 void loop() {
  
- ledArray(B11111111); 
+ //ledArray1(B11111111); 
  SR04();
  
    WaterSensor();
 
    if (sensor > 600) {
-      ledArray(B10111101); 
+      eLEDROn();
+      delay(50);
       SG90DN(posDown);
    }
  
@@ -122,7 +141,8 @@ void loop() {
  delay(3000);
  
  if (sensor < 600) {
-  ledArray(B01111110);
+   eLEDROff();
+   eLEDY();
   SG90UP(posUp);
  }
  
